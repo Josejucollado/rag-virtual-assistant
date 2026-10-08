@@ -1,6 +1,6 @@
 # Docente virtual — a RAG tutor for an Operating Systems course
 
-[![tests](https://github.com/Josejucollado/rag-docente-virtual/actions/workflows/tests.yml/badge.svg)](https://github.com/Josejucollado/rag-docente-virtual/actions/workflows/tests.yml)
+[![tests](https://github.com/Josejucollado/rag-virtual-assistant/actions/workflows/tests.yml/badge.svg)](https://github.com/Josejucollado/rag-virtual-assistant/actions/workflows/tests.yml)
 ![Python 3.12](https://img.shields.io/badge/python-3.12-blue)
 ![License: MIT](https://img.shields.io/badge/license-MIT-green)
 

@@ -1,0 +1,53 @@
+# docker compose up                     -> la web en http://localhost:8000
+# docker compose run --rm web python -m cli.process_md --reset    (rehacer el índice)
+# docker compose --profile herramientas run --rm herramientas     (los tests)
+# docker compose --profile herramientas run --rm herramientas python -m eval_ragas.tfg.comparativa_recuperacion
+#
+# La clave va en el .env (copia .env.example). Compose la pasa como variable de
+# entorno; el fichero en sí nunca entra en la imagen.
+
+services:
+  web:
+    build:
+      context: .
+      target: web
+      args:
+        # La URL del índice publicado en una release (ver indice.yml). Vacía, la
+        # imagen sale sin índice y se construye con la orden de arriba.
+        INDICE_URL: ${INDICE_URL:-}
+    image: docente-virtual:web
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DEMO_PUBLICA: ${DEMO_PUBLICA:-0}
+    ports:
+      - "8000:8000"
+    volumes:
+      # Un volumen con nombre y no una carpeta del host: la primera vez Docker lo
+      # llena con el índice que traiga la imagen, y Chroma puede escribir en él
+      # (reescribe sus ficheros al abrir la colección).
+      - indice:/app/chroma_db_blablador
+    restart: unless-stopped
+
+  herramientas:
+    profiles: ["herramientas"]
+    build:
+      context: .
+      target: herramientas
+    image: docente-virtual:herramientas
+    env_file:
+      - path: .env
+        required: false
+    volumes:
+      - indice:/app/chroma_db_blablador
+      # Los resultados de la evaluación y las figuras quedan en el host.
+      - ./data:/app/data
+      - ./thesis/imagenes:/app/thesis/imagenes
+      # Los modelos que se descarguen (Docling, otros rerankers) sobreviven
+      # entre ejecuciones.
+      - modelos:/modelos
+
+volumes:
+  indice:
+  modelos:

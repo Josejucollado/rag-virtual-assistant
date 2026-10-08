@@ -1,0 +1,9 @@
+# Evaluación (paquete `eval_ragas`): puntuar con RAGAS, informes y comparativas.
+-r requirements.txt
+
+ragas>=0.4                      # métricas del RAG: ragas.evaluate + ragas.metrics
+pandas>=2.0                     # tablas de la evaluación y del informe
+scipy>=1.11                     # wilcoxon pareado, Friedman; llegaba de rebote por
+                                # sentence-transformers, pero se importa directamente
+matplotlib>=3.8                 # sólo las figuras en PDF de la memoria
+                                # (`eval_ragas.tfg`); los informes HTML no la necesitan

@@ -1,0 +1,7 @@
+# Desarrollo: los tests y el linter. Los tests de la comparativa y de la
+# puntuación importan `ragas`, así que se instala también la evaluación.
+-r requirements-eval.txt
+
+pytest>=8.0                     # python -m pytest -q
+httpx>=0.27                     # lo necesita fastapi.testclient (tests/test_web.py)
+ruff>=0.6                       # ruff check .

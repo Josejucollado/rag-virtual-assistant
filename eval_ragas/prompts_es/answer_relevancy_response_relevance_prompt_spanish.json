@@ -1,0 +1,26 @@
+{
+  "ragas_version": "0.4.3",
+  "original_hash": 1731176900411168581,
+  "language": "spanish",
+  "instruction": "Genere una pregunta para la respuesta dada e identifique si la respuesta es evasiva. Asigne 1 a evasiva si la respuesta es evasiva y 0 si la respuesta es comprometida. Una respuesta evasiva es aquella que es ambigua, vaga o esquiva. Por ejemplo, \"No lo sé\" o \"No estoy seguro\" son respuestas evasivas",
+  "examples": [
+    {
+      "input": {
+        "response": "Albert Einstein nació en Alemania."
+      },
+      "output": {
+        "question": "¿Dónde nació Albert Einstein?",
+        "noncommittal": 0
+      }
+    },
+    {
+      "input": {
+        "response": "No sé acerca de la característica innovadora del teléfono inteligente inventado en 2023, ya que desconozco la información posterior a 2022."
+      },
+      "output": {
+        "question": "¿Cuál fue la característica innovadora del teléfono inteligente inventado en 2023?",
+        "noncommittal": 1
+      }
+    }
+  ]
+}

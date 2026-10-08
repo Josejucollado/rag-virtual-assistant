@@ -1,0 +1,29 @@
+{
+  "ragas_version": "0.4.3",
+  "original_hash": 173430719764735230,
+  "language": "spanish",
+  "instruction": "\n    Desglose y divida cada una de las oraciones de entrada en una o más afirmaciones independientes. Cada afirmación debe ser una declaración independiente que pueda ser verificada de manera autónoma.\n    Siga el nivel de atomicidad y cobertura que se muestra en los ejemplos.\n    ",
+  "examples": [
+    {
+      "input": {
+        "response": "Charles Babbage fue un matemático, filósofo y crítico gastronómico francés."
+      },
+      "output": {
+        "claims": [
+          "Charles Babbage fue un matemático y filósofo."
+        ]
+      }
+    },
+    {
+      "input": {
+        "response": "Albert Einstein fue un físico teórico alemán. Él desarrolló la teoría de la relatividad y también contribuyó al desarrollo de la mecánica cuántica."
+      },
+      "output": {
+        "claims": [
+          "Albert Einstein fue un físico alemán.",
+          "Albert Einstein desarrolló la relatividad y contribuyó a la mecánica cuántica."
+        ]
+      }
+    }
+  ]
+}

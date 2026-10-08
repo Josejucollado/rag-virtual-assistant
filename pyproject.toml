@@ -1,0 +1,30 @@
+[project]
+name = "docente-virtual-so"
+version = "1.0.0"
+description = "Docente virtual de Sistemas Operativos: RAG híbrido (BM25 + denso + reranker) con respuestas citadas y evaluación con RAGAS."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.12"
+authors = [{ name = "Josejucollado" }]
+keywords = ["rag", "langchain", "chromadb", "ragas", "fastapi", "retrieval"]
+
+# Las dependencias viven en los requirements*.txt (núcleo, ingesta, evaluación
+# y desarrollo por separado): la imagen de Docker instala sólo el núcleo. El
+# proyecto no se empaqueta; se ejecuta desde la raíz con `python -m`.
+
+[tool.pytest.ini_options]
+# Con esto `pytest` a secas encuentra los paquetes `rag`, `cli`, `web` y
+# `eval_ragas`, igual que `python -m pytest`.
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["data", "thesis", "chroma_db_*"]
+
+[tool.ruff.lint]
+# Las reglas por defecto (errores reales: nombres sin definir, imports sin usar,
+# comparaciones mal escritas). Sin reglas de estilo: el código sigue sus propias
+# convenciones, documentadas en los propios módulos.
+select = ["E4", "E7", "E9", "F"]

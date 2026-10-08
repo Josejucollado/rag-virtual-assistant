@@ -1,0 +1,59 @@
+# Construye el índice vectorial y lo publica como fichero de una release.
+#
+# El índice no se versiona en git (Chroma reescribe sus binarios al abrirlo),
+# pero la imagen de Docker lo necesita para arrancar sin más. Se lanza a mano
+# cuando cambia el corpus o el troceado: Actions → indice → Run workflow.
+#
+# Necesita el secreto del repositorio BLABLADOR_API_KEY (Settings → Secrets and
+# variables → Actions). Indexar es gratuito: unas 24 peticiones de embeddings.
+# Después, la URL del fichero se pone en la variable INDICE_URL del repositorio
+# para que docker.yml la meta en la imagen.
+
+name: indice
+
+on:
+  workflow_dispatch:
+    inputs:
+      etiqueta:
+        description: "Etiqueta de la release donde se publica"
+        default: "indice"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  indice:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements*.txt
+
+      - name: Instalar dependencias
+        run: |
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements.txt
+
+      - name: Indexar el corpus
+        env:
+          BLABLADOR_API_KEY: ${{ secrets.BLABLADOR_API_KEY }}
+        run: python -m cli.process_md --reset
+
+      - name: Empaquetar
+        run: tar czf indice-blablador.tar.gz chroma_db_blablador
+
+      - name: Publicar en la release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ETIQUETA: ${{ inputs.etiqueta }}
+        run: |
+          gh release view "$ETIQUETA" >/dev/null 2>&1 \
+            || gh release create "$ETIQUETA" --title "Índice vectorial" \
+                 --notes "Índice de ChromaDB (Qwen3-Embedding-8B, 4096 dims) para la imagen de Docker."
+          gh release upload "$ETIQUETA" indice-blablador.tar.gz --clobber
+          echo "URL: ${{ github.server_url }}/${{ github.repository }}/releases/download/$ETIQUETA/indice-blablador.tar.gz"

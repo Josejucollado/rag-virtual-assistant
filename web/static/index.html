@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RAG · Sistemas Operativos</title>
+<meta name="description" content="Consulta y descarga la documentación de Sistemas Operativos, y pregunta al sistema RAG sobre ella.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230d1013'/><path d='M8 22V10h6.4a3.6 3.6 0 0 1 0 7.2H11l5 4.8' stroke='%235ad1ff' stroke-width='2.4' fill='none' stroke-linejoin='round'/></svg>">
+<link rel="stylesheet" href="/static/css/estilos.css">
+</head>
+<body>
+
+<div id="arranque" class="arranque">
+  <div class="arranque-caja">
+    <div class="arranque-marca">
+      <span class="marca-sigla">RAG</span>
+      <span class="marca-nombre">Sistemas Operativos</span>
+    </div>
+    <div class="barra-indeterminada"><span></span></div>
+    <p class="arranque-paso" id="arranque-paso">Cargando la interfaz…</p>
+    <p class="arranque-nota">
+      El índice léxico y el <i>cross-encoder</i> se cargan una sola vez al arrancar.
+    </p>
+  </div>
+</div>
+
+<div class="app" id="app" hidden>
+  <aside class="lateral">
+    <a class="marca" href="#/documentos">
+      <span class="marca-sigla">RAG</span>
+      <span class="marca-texto">
+        <strong>Sistemas Operativos</strong>
+        <small>Documentación de la asignatura</small>
+      </span>
+    </a>
+
+    <nav class="nav" id="nav">
+      <a href="#/documentos" data-ruta="documentos">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h9l5 5v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Z"/><path d="M14 4v5h5"/></svg>
+        <span>Documentos</span>
+      </a>
+      <a href="#/chat" data-ruta="chat">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15a2 2 0 0 1-2 2H8l-4 4V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2Z"/></svg>
+        <span>Chat</span>
+      </a>
+      <a href="#/sistema" data-ruta="sistema">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></svg>
+        <span>Sistema</span>
+      </a>
+    </nav>
+
+    <div class="lateral-pie">
+      <p class="aviso-demo" id="aviso-demo" hidden></p>
+      <div class="estado-nucleo" id="estado-nucleo">
+        <span class="punto" data-estado="arrancando"></span>
+        <span class="estado-texto">cargando…</span>
+      </div>
+      <dl class="config-mini" id="config-mini"></dl>
+    </div>
+  </aside>
+
+  <main class="principal" id="vista" tabindex="-1"></main>
+</div>
+
+<script type="module" src="/static/js/app.js"></script>
+<script>
+  // Vigilante del arranque. Si los módulos no llegan a ejecutarse (uno que
+  // falta, un error de sintaxis), esta pantalla se quedaría así para siempre
+  // sin decir por qué: pasó con un app.js viejo en la caché que importaba una
+  // vista ya borrada. app.js pone la marca nada más empezar.
+  setTimeout(function () {
+    if (window.interfazArrancada) return;
+    document.getElementById('arranque-paso').textContent = 'La interfaz no ha podido arrancar.';
+    document.querySelector('.arranque-nota').textContent =
+      'Recarga la página sin caché (Ctrl+F5). Si sigue igual, la consola del '
+      + 'navegador (F12) dice qué fichero falla.';
+    document.querySelector('.barra-indeterminada').hidden = true;
+  }, 10000);
+</script>
+</body>
+</html>

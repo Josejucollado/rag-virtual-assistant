@@ -1,0 +1,47 @@
+# Dependencias del RAG: núcleo (`rag/`), órdenes de consola (`cli/`) e interfaz
+# web (`web/`). Es lo único que necesita la imagen de Docker.
+#
+# Sólo se declara lo que el código importa de verdad, más los motores que hay
+# detrás (Chroma como almacén, rank_bm25 y sentence-transformers como backends).
+#
+#   pip install -r requirements.txt            # el RAG y la web
+#   pip install -r requirements-ingesta.txt    # + convertir PDF nuevos (Docling)
+#   pip install -r requirements-eval.txt       # + la evaluación con RAGAS
+#   pip install -r requirements-dev.txt        # + los tests
+#
+# En Linux, `sentence-transformers` arrastra el torch con CUDA (varios GB). Si no
+# hay GPU, instalar antes la rueda de CPU:
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+
+# ── LangChain: la tubería de recuperación ─────────────────────────────────────
+langchain-core>=1.0             # Document, PromptTemplate, StrOutputParser
+langchain-classic>=1.0          # EnsembleRetriever y CrossEncoderReranker (salieron del core en LC 1.x)
+# El tope superior NO es decorativo: 0.4.2 eliminó
+# `langchain_community.chat_models.vertexai`, y `ragas` (hasta la 0.4.3, la
+# última) lo importa a la fuerza en `ragas/llms/base.py`. Con 0.4.2 instalado,
+# `import ragas` muere con ModuleNotFoundError y las fases 2 y 3 de la
+# evaluación no arrancan. 0.4.1 sigue trayendo el módulo y pide
+# langchain-core>=1.0.1, así que convive con el resto sin tocar nada más.
+langchain-community>=0.4,<0.4.2  # BM25Retriever, HuggingFaceCrossEncoder, TextLoader
+langchain-text-splitters>=1.0   # MarkdownHeaderTextSplitter, RecursiveCharacterTextSplitter
+rank_bm25>=0.2.2                # motor léxico que hay debajo de BM25Retriever
+snowballstemmer>=2.2            # stemming en español para BM25 (BM25_STEMMING); sin datos que descargar
+sentence-transformers>=3.0      # motor del cross-encoder del reranker; NO es opcional
+
+# ── Almacén vectorial ─────────────────────────────────────────────────────────
+langchain-chroma>=1.0
+chromadb>=1.0                   # el almacén en sí; se persiste en chroma_db_blablador/
+
+# ── LLM y embeddings: Blablador (Helmholtz), API compatible con OpenAI ────────
+langchain-openai>=1.0           # ChatOpenAI y OpenAIEmbeddings contra api.blablador.fz-juelich.de
+openai>=1.100                   # el cliente HTTP que tiene debajo
+
+# ── Interfaz web (paquete web) ────────────────────────────────────────────────
+fastapi>=0.115                  # API y streaming por SSE
+uvicorn>=0.30                   # servidor ASGI que la arranca
+pydantic>=2.0                   # validación de los cuerpos de petición
+
+# ── Utilidades ────────────────────────────────────────────────────────────────
+python-dotenv>=1.0              # lee el .env con BLABLADOR_API_KEY
+numpy>=1.26                     # normalización de los vectores de embeddings
+rich>=13.0                      # salida con formato de los scripts de consola

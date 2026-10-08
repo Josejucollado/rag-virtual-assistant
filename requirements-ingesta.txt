@@ -1,0 +1,9 @@
+# Ingesta: PDF → Markdown (`python -m cli.pdf_to_md`).
+#
+# Sólo hace falta para convertir PDF nuevos: el Markdown del corpus ya está en
+# `data/documentacion_md/`. Docling descarga además sus modelos de maquetación,
+# TableFormer y OCR la primera vez.
+-r requirements.txt
+
+docling>=2.26                   # convertidor principal: layout + TableFormer; RapidOcrOptions desde la 2.26
+pymupdf>=1.24                   # `import fitz`, para rescatar tablas marcadas como figura

@@ -1,0 +1,26 @@
+# El .env NUNCA entra en la imagen: lleva la clave, y `rag/config.py` lo carga
+# con override=True, así que pisaría las variables que se le den al contenedor.
+.env
+
+.git
+.github
+.venv
+venv
+**/__pycache__
+**/*.pyc
+.pytest_cache
+.ruff_cache
+
+# Se generan o se montan, no se copian.
+chroma_db_*
+data/ragas
+data/cache_embeddings
+
+# No hacen falta para ejecutar el sistema.
+thesis
+docs
+.claude
+CLAUDE.md
+AGENTS.md
+.vscode
+.idea

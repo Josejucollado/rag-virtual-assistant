@@ -1,0 +1,8 @@
+# Todo el texto en LF, también en Windows. Sin esto, `core.autocrlf` dejaba el
+# árbol de trabajo con una mezcla de CRLF y LF, y las sustituciones de varias
+# líneas fallaban en silencio según el fichero.
+* text=auto eol=lf
+
+*.pdf binary
+*.png binary
+*.jpg binary

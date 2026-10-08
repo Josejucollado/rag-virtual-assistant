@@ -1,0 +1,72 @@
+# Entornos virtuales
+.venv/
+venv/
+
+#Documentacion para testing
+
+testingDocs/
+
+# Variables sensibles (BLABLADOR_API_KEY). La plantilla es .env.example.
+.env
+
+# Caché de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Configuración de IDEs, editores y asistentes
+.vscode/
+.idea/
+*.swp
+.claude/
+CLAUDE.md
+AGENTS.md
+
+# Empaquetado y despliegue
+dist/
+build/
+*.egg-info/
+
+# Logs
+logs/
+*.log
+
+# Pruebas
+.pytest_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+.tox/
+.nox/
+
+# Resultados de la evaluación: se regeneran con `python -m eval_ragas.puntuar`.
+# Las plantillas del juez (eval_ragas/prompts_es/) SÍ se versionan, para que la
+# evaluación sea reproducible. Hay un subdirectorio por corrida
+# (data/ragas/<corrida>/), así que se ignora el árbol entero.
+data/ragas/
+
+# Caché de embeddings en disco: 29 MB que ningún módulo ha leído nunca. Si
+# alguna vez se vuelve a activar un caché, que no acabe otra vez en el
+# repositorio.
+data/cache_embeddings/
+
+# El índice vectorial NO se versiona: rehacerlo es gratis y tarda unos minutos
+# (`python -m cli.process_md --reset`), y Chroma reescribe sus binarios con sólo
+# abrir la colección, así que ensuciaría cada commit.
+chroma_db_*/
+
+# Memoria del TFG: borradores y restos de compilar LaTeX. Sólo se publica el
+# PDF final (thesis/Memoria_TFG.pdf).
+*_preview.pdf
+*_vista_previa.pdf
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.out
+*.synctex.gz
+*.toc
+*.lof
+*.lot

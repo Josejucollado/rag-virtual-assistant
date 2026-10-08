@@ -1,0 +1,60 @@
+{
+  "ragas_version": "0.4.3",
+  "original_hash": 1769198678414062491,
+  "language": "spanish",
+  "instruction": "Su tarea es juzgar la fidelidad de una serie de afirmaciones basándose en un contexto dado. Para cada afirmación debe devolver un veredicto de 1 si la afirmación se puede deducir directamente basándose en el contexto o 0 si la afirmación no se puede deducir directamente basándose en el contexto.",
+  "examples": [
+    {
+      "input": {
+        "context": "John es estudiante en la Universidad XYZ. Está cursando una carrera en Ciencias de la Computación. Está inscrito en varios cursos este semestre, incluyendo Estructuras de Datos, Algoritmos y Gestión de Bases de Datos. John es un estudiante diligente y pasa una cantidad significativa de tiempo estudiando y completando tareas. A menudo se queda hasta tarde en la biblioteca para trabajar en sus proyectos.",
+        "statements": [
+          "John se está especializando en Biología.",
+          "John está tomando un curso de Inteligencia Artificial.",
+          "John es un estudiante dedicado.",
+          "John tiene un trabajo de medio tiempo."
+        ]
+      },
+      "output": {
+        "statements": [
+          {
+            "statement": "John se está especializando en Biología.",
+            "reason": "La especialidad de John se menciona explícitamente como Ciencias de la Computación. No hay información que sugiera que se esté especializando en Biología.",
+            "verdict": 0
+          },
+          {
+            "statement": "John está tomando un curso de Inteligencia Artificial.",
+            "reason": "El contexto menciona los cursos en los que John está inscrito actualmente, y la Inteligencia Artificial no se menciona. Por lo tanto, no se puede deducir que John esté tomando un curso de IA.",
+            "verdict": 0
+          },
+          {
+            "statement": "John es un estudiante dedicado.",
+            "reason": "El contexto afirma que pasa una cantidad significativa de tiempo estudiando y completando tareas. Además, menciona que a menudo se queda hasta tarde en la biblioteca para trabajar en sus proyectos, lo que implica dedicación.",
+            "verdict": 1
+          },
+          {
+            "statement": "John tiene un trabajo de medio tiempo.",
+            "reason": "No se proporciona información en el contexto sobre si John tiene un trabajo de medio tiempo.",
+            "verdict": 0
+          }
+        ]
+      }
+    },
+    {
+      "input": {
+        "context": "La fotosíntesis es un proceso utilizado por plantas, algas y ciertas bacterias para convertir la energía lumínica en energía química.",
+        "statements": [
+          "Albert Einstein era un genio."
+        ]
+      },
+      "output": {
+        "statements": [
+          {
+            "statement": "Albert Einstein era un genio.",
+            "reason": "El contexto y la declaración no están relacionados",
+            "verdict": 0
+          }
+        ]
+      }
+    }
+  ]
+}
